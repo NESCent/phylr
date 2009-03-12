@@ -53,16 +53,16 @@ makeIndex.html=true
 #db.DSpace.configuration=config/DSpace.SRWDatabase.props
 
 # parameters for the test database
-db.oclctest.class=ORG.oclc.os.SRW.SRWTestDatabase
+db.test.class=ORG.oclc.os.SRW.SRWTestDatabase
 
 # parameters for the lucene test database
 db.treebase.class=ORG.oclc.os.SRW.Lucene.SRWLuceneDatabase
 db.treebase.home=/home/Scherle/phylr/treebaseIndex
 db.treebase.configuration=Treebase.props
 
-db.test.class=ORG.oclc.os.SRW.Lucene.SRWLuceneDatabase
-db.test.home=/home/Scherle/phylr/dryadSearch
-db.test.configuration=Test.props
+db.ltest.class=ORG.oclc.os.SRW.Lucene.SRWLuceneDatabase
+db.ltest.home=/home/Scherle/phylr/dryadSearch
+db.ltest.configuration=Test.props
 
 #db.SciFi.class=ORG.oclc.os.SRW.Pears.SRWPearsDatabase
 #db.SciFi.home=f:/dbs/scifi/
