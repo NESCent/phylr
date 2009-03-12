@@ -1,0 +1,48 @@
+databaseInfo.title=Phylr
+databaseInfo.description=Phylr contains a copy of the TreeBASE data.
+databaseInfo.author=Phylr subgroup from the Nescent Database Interoperability Hackathon
+databaseInfo.contact=rscherle@nescent.org
+
+configInfo.maximumRecords=50
+
+
+# Mapping between the CQL indexes (query fields) and searchable fields
+# within the Lucene index.
+qualifier.dc.identifier=treeid
+qualifier.dc.creator=author
+qualifier.dc.description=abstract
+qualifier.dc.subject=keywords
+qualifier.phylo.scientificName=otu
+qualifier.phylo.datatype=datatype
+qualifier.phylo.treesize=treesize
+qualifier.phylo.hasbranchlengths=hasbranchlengths
+qualifier.cql.serverChoice=keywords
+
+# Analyzer to use for tokenizing queries within Lucene (this should be
+# the same as the analyzer that was used to generate the index)
+# A default analyzer may be provided, as well as analyzers for
+# individual fields.
+# analyzer.default=StandardAnalyzer
+# analyzer.treeid=WhitespaceAnalyzer
+analyzer.default=StandardAnalyzer
+analyzer.treeid=WhitespaceAnalyzer
+
+
+# Possible result formats
+xmlSchemas=LuceneDocument,nexml,dc
+
+LuceneDocument.identifier=info:srw/schema/1/LuceneDocument
+LuceneDocument.location=http://www.oclc.org/standards/Lucene/schema/LuceneDocument.xsd
+LuceneDocument.namespace=http://www.oclc.org/LuceneDocument
+LuceneDocument.title=Lucene records in their internal format
+
+nexml.identifier=info:http://www.nexml.org/1.0
+nexml.location=http://www.nexml.org/1.0/nexml.xsd
+nexml.namespace=http://www.nexml.org/1.0
+nexml.title=Nexml
+
+dc.identifier=info:srw/schema/1/dc-v1.1
+dc.location=http://www.loc.gov/standards/sru/resources/dc-schema.xsd
+dc.namespace=http://purl.org/dc/elements/1.1/
+dc.title=Dublin Core
+
