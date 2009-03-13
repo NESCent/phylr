@@ -1,8 +1,8 @@
 # parameters for the SRW Servlet
-default.database=DSpace
+default.database=lucene
 resultSetIdleTime=300
 makeIndex.html=true
-#index.html=D:/Program Files/Apache Software Foundation/Tomcat 5.5/webapps/SRW/index.html
+#index.html=someIndexFile.html
 
 #remote srwservlets whose databases we should add to index.html
 #remote.alcme.configuration=http://alcme.oclc.org/srw/SRWServer.props
@@ -48,18 +48,18 @@ makeIndex.html=true
 # installed.
 # 
 
+# parameters for the test database
+db.test.class=ORG.oclc.os.SRW.SRWTestDatabase
+
 #db.DSpace.class=ORG.oclc.os.SRW.DSpaceLucene.SRWLuceneDatabase
 #db.DSpace.home=d:/dspace/
 #db.DSpace.configuration=config/DSpace.SRWDatabase.props
 
-# parameters for the test database
-db.test.class=ORG.oclc.os.SRW.SRWTestDatabase
+db.treebase.class=ORG.oclc.os.SRW.Lucene.SRWLuceneDatabase
+db.treebase.home=/Users/ryan/phylr-data/phylr-index
+db.treebase.configuration=TreeIndex.props
 
-# parameters for the lucene test database
-# CHANGE THE PATH TO THE TEST DATABASE!
-db.lucenetest.class=ORG.oclc.os.SRW.Lucene.SRWLuceneDatabase
-db.lucenetest.home=c:/oclcsrwlucene-read-only/lucene
+db.lucene.class=ORG.oclc.os.SRW.Lucene.SRWLuceneDatabase
+db.lucene.home=/Users/ryan/phylr-data/dryadSearch
+db.lucene.configuration=Test.props
 
-#db.SciFi.class=ORG.oclc.os.SRW.Pears.SRWPearsDatabase
-#db.SciFi.home=f:/dbs/scifi/
-#db.SciFi.configuration=SRWDatabase.props

@@ -56,10 +56,10 @@ db.test.class=ORG.oclc.os.SRW.SRWTestDatabase
 #db.DSpace.configuration=config/DSpace.SRWDatabase.props
 
 db.treebase.class=ORG.oclc.os.SRW.Lucene.SRWLuceneDatabase
-db.treebase.home=/Users/ryan/phylr/treebaseIndex
+db.treebase.home=/Users/ryan/phylr-data/treebaseIndex
 db.treebase.configuration=TreeIndex.props
 
 db.lucene.class=ORG.oclc.os.SRW.Lucene.SRWLuceneDatabase
-db.lucene.home=/Users/ryan/phylr/dryadSearch
+db.lucene.home=/Users/ryan/phylr-data/dryadSearch
 db.lucene.configuration=Test.props
 
