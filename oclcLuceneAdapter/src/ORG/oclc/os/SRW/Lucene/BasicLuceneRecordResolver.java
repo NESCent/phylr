@@ -28,6 +28,8 @@ import java.util.Iterator;
 import java.util.Properties;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -35,6 +37,7 @@ import org.apache.lucene.document.Field;
  * @author levan
  */
 public class BasicLuceneRecordResolver implements RecordResolver {
+    static Log log=LogFactory.getLog(BasicLuceneRecordResolver.class);
     static final String LUCENE_SCHEMA_ID="info:srw/schema/1/LuceneDocument";
 
     /** Creates a new instance of BasicLuceneRecordResolver */
@@ -56,7 +59,12 @@ public class BasicLuceneRecordResolver implements RecordResolver {
             // field=(Field)fields.nextElement();
             field=(Field)fields.next();
             sb.append("<field name=\"").append(field.name()).append("\">");
-            sb.append(Utilities.xmlEncode(field.stringValue()));
+
+	    String fieldVal = field.stringValue();
+	    int firstNewline = fieldVal.indexOf("\n");
+	    log.error("Trimmed: " + fieldVal.substring(0,firstNewline));
+	    
+	    //            sb.append(fieldVal.substring(firstNewline));
             sb.append("</field>");
         }
         sb.append("</LuceneDocument>");
