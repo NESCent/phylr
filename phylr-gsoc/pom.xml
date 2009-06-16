@@ -7,17 +7,19 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>phylr-gsoc Maven Webapp</name>
 	<url>http://maven.apache.org</url>
+	<repositories>
+		<repository>
+			<id>phylr</id>
+			<name>phylr maven repository</name>
+			<url>http://phylr.googlecode.com/svn/trunk/m2repo/repository</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>3.8.1</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>axis</groupId>
-			<artifactId>axis</artifactId>
-			<version>1.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.z3950.zing</groupId>
@@ -51,7 +53,25 @@
 			<version>2.7.1</version>
 			<scope>runtime</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>nexml</groupId>
+			<artifactId>nexml</artifactId>
+			<version>090601</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>axis</groupId>
+			<artifactId>axis</artifactId>
+			<version>1.4</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
     <build>
       <finalName>phylr-gsoc</finalName>
