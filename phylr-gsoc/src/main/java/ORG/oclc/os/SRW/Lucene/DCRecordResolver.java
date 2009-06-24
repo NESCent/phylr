@@ -24,7 +24,7 @@ public class DCRecordResolver implements RecordResolver {
         StringBuffer sb = new StringBuffer("<dc xmlns:dc=\"http://purl.org/dc/elements/1.1/\">");
         
         sb.append("<dc:creator>");
-        sb.append(doc.getField("authors").stringValue());
+        sb.append(doc.getField("authors").stringValue()); 
         sb.append("</dc:creator>");
         sb.append("</dc>");
         return new Record(sb.toString(), SCHEMA_ID);

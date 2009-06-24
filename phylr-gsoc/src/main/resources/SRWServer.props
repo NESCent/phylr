@@ -52,7 +52,7 @@ makeIndex.html=true
 db.test.class=ORG.oclc.os.SRW.SRWTestDatabase
 
 db.treebase.class=ORG.oclc.os.SRW.Lucene.SRWLuceneDatabase
-db.treebase.home=/home/djiao/workspace/phylr/nexmlLuceneIndexer/data/phylr-index
+db.treebase.home=/home/djiao/workspace/phylr-gsoc/data/phylr-index
 db.treebase.configuration=TreeIndex.props
 
 db.lucene.class=ORG.oclc.os.SRW.Lucene.SRWLuceneDatabase
