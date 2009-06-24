@@ -2,11 +2,13 @@ package ORG.oclc.os.SRW.Lucene;
 
 import gov.loc.www.zing.srw.ExtraDataType;
 
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
 
 import ORG.oclc.os.SRW.Record;
 
@@ -22,10 +24,19 @@ public class DCRecordResolver implements RecordResolver {
 	public Record resolve(Document doc, String IdFieldName,
 			ExtraDataType extraDataType) {
         StringBuffer sb = new StringBuffer("<dc xmlns:dc=\"http://purl.org/dc/elements/1.1/\">");
-        
-        sb.append("<dc:creator>");
-        sb.append(doc.getField("authors").stringValue()); 
-        sb.append("</dc:creator>");
+        List fields = doc.getFields();
+        for (Object object : fields) {
+			Field field = (Field)object;
+			if (field.name().startsWith("dc.")) {
+				sb.append("<");
+				sb.append(field.name().replace('.', ':'));
+				sb.append(">");
+				sb.append(field.stringValue());
+				sb.append("</");
+				sb.append(field.name().replace('.', ':'));
+				sb.append(">");
+			}
+		}
         sb.append("</dc>");
         return new Record(sb.toString(), SCHEMA_ID);
 	}
