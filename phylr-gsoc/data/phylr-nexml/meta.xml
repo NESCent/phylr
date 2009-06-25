@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nexml
+    veasdfrsion="0.8"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace"
+    xmlns="http://www.nexml.org/1.0">
+    <meta property="dc:identifier" content="S11x4x95c20c37c39" datatype="xsd:string"/>
+    <meta property="dc:contributor" content="T. J. Ayers" datatype="xsd:string"/>
+    <meta property="dc:title" content="Systematics of Heterotoma (Campanulaceae) and the evolution of nectar spurs in the New World Lobelioideae." datatype="xsd:string"/>
+    <meta property="dc:abstract" content="Historically, the genus Heterotoma has been delimited from the large, cosmopolitan genus Lobelia by a single character, the presence of a nectar spur. Comparative studies between Heterotoma and selected members of Lobelia utilizing macro- and micromorphology of pollen and seed testa, anatomy, and field studies support a hypothesis of three independent derivations of nectar spurs in two sections of Lobelia. The present treatment recognizes 12 species (14 taxa). Heterotoma lobelioides, including two varieties, is retained as a monotypic genus. The remaining species are transferred to Lobelia sect. Hemipogon. The revision includes keys, descriptions, distribution maps, and illustrations (or references to such) for each species. One new variety (H. lobelioides var. glabra) is described, four new combinations are made (L. aurita, L. endlichii, L. flexuosa var. intermedia, and L. goldmannii), and one new name is proposed (L. volcanica)." datatype="xsd:string"/>
+    <meta property="prism:startingPage" content="296" datatype="xsd:integer"/>
+    <meta property="prism:endingPage" content="327" datatype="xsd:integer"/>
+    <meta property="prism:publicationName" content="Syst. Bot." datatype="xsd:string"/>
+    <meta property="prism:volume" content="15" datatype="xsd:integer"/>
+    <meta property="prism:publicationDate" content="1990" datatype="xsd:integer"/>
+    <otus id="_TaxaBlock2139"> 
+        <otu id="Lobelialaxiflora" label="Lobelia laxiflora" />
+        <otu id="Heterotomalobelioides" label="Heterotoma lobelioides" />
+        <otu id="Lobeliamargarita" label="Lobelia margarita" />
+        <otu id="Heterotomapringlei" label="Heterotoma pringlei" />
+        <otu id="Lobeliaberlandieri" label="Lobelia berlandieri" />
+        <otu id="Cordifoliagroup" label='Cordifolia "group"' />
+        <otu id="Macrocentrongroup" label='Macrocentron "group"' />
+    </otus>
+    <trees id="_TreesBlock2140" otus="_TaxaBlock2139">
+        <tree id="T6c11x4x95c20c43c20" label="Fig. 16" xsi:type="FloatTree">
+            <external xmlns="dbhack1/phylr"><analysis algorithm="Parsimony" id="A4c11x4x95c20c42c21" software="Hennig86"><inputmatrix datatype="Morphological" name="Table 1" nchar="10" /></analysis></external>
+            <node id="_Node2144" />
+            <node id="_Node2146" />
+            <node id="_Node2148" otu="Lobelialaxiflora" />
+            <node id="_Node2151" otu="Heterotomalobelioides" />
+            <node id="_Node2154" />
+            <node id="_Node2156" />
+            <node id="_Node2158" otu="Lobeliamargarita" />
+            <node id="_Node2161" otu="Heterotomapringlei" />
+            <node id="_Node2164" otu="Lobeliaberlandieri" />
+            <node id="_Node2167" />
+            <node id="_Node2169" otu="Cordifoliagroup" />
+            <node id="_Node2172" otu="Macrocentrongroup" />
+            <rootedge id="_Edge2145" target="_Node2144" />
+            <edge id="_Edge2147" source="_Node2144" target="_Node2146" />
+            <edge id="_Edge2149" source="_Node2146" target="_Node2148" />
+            <edge id="_Edge2152" source="_Node2146" target="_Node2151" />
+            <edge id="_Edge2155" source="_Node2144" target="_Node2154" />
+            <edge id="_Edge2157" source="_Node2154" target="_Node2156" />
+            <edge id="_Edge2159" source="_Node2156" target="_Node2158" />
+            <edge id="_Edge2162" source="_Node2156" target="_Node2161" />
+            <edge id="_Edge2165" source="_Node2154" target="_Node2164" />
+            <edge id="_Edge2168" source="_Node2154" target="_Node2167" />
+            <edge id="_Edge2170" source="_Node2167" target="_Node2169" />
+            <edge id="_Edge2173" source="_Node2167" target="_Node2172" />
+        </tree>
+    </trees>
+</nexml>
