@@ -16,7 +16,6 @@
 
 package gov.loc.www.zing.srw.srw_bindings;
 
-import ORG.oclc.os.SRW.Utilities;
 import gov.loc.www.zing.cql.xcql.BooleanType;
 import gov.loc.www.zing.cql.xcql.OperandType;
 import gov.loc.www.zing.cql.xcql.RelationType;
@@ -33,8 +32,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
 
-import ORG.oclc.os.SRW.SRWDatabase;
-import ORG.oclc.os.SRW.SRWDiagnostic;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Hashtable;
@@ -42,6 +39,9 @@ import org.apache.axis.MessageContext;
 import org.apache.axis.types.NonNegativeInteger;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.oclc.os.SRW.SRWDatabase;
+import org.oclc.os.SRW.SRWDiagnostic;
+import org.oclc.os.SRW.Utilities;
 import org.z3950.zing.cql.CQLAndNode;
 import org.z3950.zing.cql.CQLBooleanNode;
 import org.z3950.zing.cql.CQLNode;

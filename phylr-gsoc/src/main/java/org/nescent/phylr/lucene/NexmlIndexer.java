@@ -20,6 +20,12 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.cli.BasicParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang.StringUtils;
@@ -34,9 +40,89 @@ import org.w3c.dom.NodeList;
 
 public class NexmlIndexer {
 	private Map<Predicate, XPathExpression> xpaths;
+	private static final String USAGE = "java org.nescent.phylr.lucene.NexmlIndexer [-h] -d <data_dir> -i <index_dir> -m <predicates_mapping_file>";
+
+	private static final String HEADER = "NEXML Lucene Indexer";
+
+	private static final String FOOTER = "For more instructions, please visit http://tinyurl.com/q2pchz";
+		
+	private static void printUsageAndExit(Options options) {
+		HelpFormatter helpFormatter = new HelpFormatter();
+		helpFormatter.defaultWidth = 80;
+		helpFormatter.printHelp(USAGE, HEADER, options, FOOTER);
+		System.exit(0);
+	}
+	
+	@SuppressWarnings("static-access")
+	public static Options setupOptions() {
+		Options options = new Options();
+		options.addOption("m", "mappings", true, "Mappings for CQL predicates to XPaths");
+		options.addOption("i", "index", true, "The lucene index directory");
+		options.addOption("h", "help", false, "Optional. print usage information");
+		options.addOption("d", "data", true, "Directory where NEXML files to be found");
+		return options;
+	}	
+	
+	public static void main(String[] args) {
+		Options options = setupOptions();
+		CommandLineParser cmdParser = new BasicParser();
+		
+		String index = null;
+		String data = null;
+		String mappings = null;
+		
+		try {
+			CommandLine cmd = cmdParser.parse(options, args);
+			
+			if (cmd.hasOption('h')) {
+				printUsageAndExit(options);
+			}
+			
+			mappings = cmd.getOptionValue('m');
+			index = cmd.getOptionValue('i');
+			data = cmd.getOptionValue('d');
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		if (StringUtils.isBlank(mappings) || StringUtils.isBlank(index) || StringUtils.isBlank(data)) {
+			printUsageAndExit(options);
+		}
+		
+		File mappingsFile = new File(mappings);
+		if (!mappingsFile.isFile()) {
+			System.out.println("Can't open " + mappings);
+			printUsageAndExit(options);
+		}
+		
+		File indexDir = new File(index);
+		File dataDir = new File(data);
+		if (!indexDir.isDirectory()) {
+			System.out.println("Can't open " + indexDir);
+			printUsageAndExit(options);
+		}
+		
+		if (!dataDir.isDirectory()) {
+			System.out.println("Can't open " + dataDir);
+			printUsageAndExit(options);
+		}
+		
+		List<Predicate> list;
+		try {
+			list = NexmlIndexer.readPredicates(new FileReader(mappingsFile));
+			NexmlIndexer indexer = new NexmlIndexer(list);
+			indexer.index(dataDir, indexDir);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+	}
 
 	public NexmlIndexer(List<Predicate> fields) {
-		//System.setProperty("javax.xml.xpath.XPathFactory:"+ NamespaceConstant.OBJECT_MODEL_SAXON, "net.sf.saxon.xpath.XPathFactoryImpl");
 		XPathFactory factory = XPathFactory.newInstance();
 		XPath xpath = factory.newXPath();
 		xpath.setNamespaceContext(new NexmlNamespaceContext());
@@ -184,7 +270,7 @@ public class NexmlIndexer {
 		try {
 			DocumentBuilderFactory domFactory = DocumentBuilderFactory
 					.newInstance();
-			domFactory.setNamespaceAware(true); // never forget this!
+			//domFactory.setNamespaceAware(true); 
 			DocumentBuilder builder = domFactory.newDocumentBuilder();
 			doc = builder.parse(file);
 		} catch (Exception e) {

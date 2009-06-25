@@ -17,7 +17,7 @@ import org.apache.axis.utils.XMLUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.axis.message.MessageElement;
-import ORG.oclc.os.SRW.SRWDatabase;
+import org.oclc.os.SRW.SRWDatabase;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 

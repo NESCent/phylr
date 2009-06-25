@@ -40,11 +40,11 @@ nexml.identifier=info:http://www.nexml.org/1.0
 nexml.location=http://www.nexml.org/1.0/nexml.xsd
 nexml.namespace=http://www.nexml.org/1.0
 nexml.title=Nexml
-nexml.resolver=ORG.oclc.os.SRW.Lucene.NexmlRecordResolver
+nexml.resolver=org.nescent.phylr.lucene.NexmlRecordResolver
 
 dc.identifier=info:srw/schema/1/dc-v1.1
 dc.location=http://www.loc.gov/standards/sru/resources/dc-schema.xsd
 dc.namespace=http://purl.org/dc/elements/1.1/
 dc.title=Dublin Core
-dc.resolver=ORG.oclc.os.SRW.Lucene.DCRecordResolver
+dc.resolver=org.nescent.phylr.lucene.DCRecordResolver
 

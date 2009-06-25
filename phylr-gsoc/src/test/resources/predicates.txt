@@ -1,32 +1,32 @@
-dc.description	String	//nex:meta[@property='dc:description']/@content	Any object	Dublin core	A descriptive string, e.g. the matrix description field
-dc.identifier	String	//nex:meta[@property='dc:identifier']/@content	Any object	Dublin core	A binomial identifier, e.g. TreeBASE2:Tr3242, NCBI:1232, uBio:23423
-dc.title	String	/nex:nexml/meta[@property='dc:title']/@content	Study	Dublin core	The title of a study
-dc.creator	String	/nex:nexml/nex:meta[@property='dc:creator']/@content	Study	Dublin core	The submitter of a study
-dc.contributor	String	/nex:nexml/nex:meta[@property='dc:contributor']/@content	Citation	Dublin core	An author of a study
-dc.abstract	String	/nex:nexml/nex:meta[@property='dc:abstract']/@content	Citation	Dublin core	A study abstract
-prism.publicationName	String	/nex:nexml/nex:meta[@property='prism:publicationName']/@content	Citation	Prism context set	The publication in which study was published (e.g. a journal name)
-prism.doi	String	/nex:nexml/nex:meta[@property='prism:doi']/@content	Citation	Prism context set	The digital object identifier of the publication 
-prism.volume	Int	/nex:nexml/nex:meta[@property='prism:volume']/@content	Citation	Prism context set	The volume number of the publication
-prism.number	Int	/nex:nexml/nex:meta[@property='prism:number']/@content	Citation	Prism context set	The issue number of the publication
-prism.startingPage	Int	/nex:nexml/nex:meta[@property='prism:startingPage']/@content	Citation	Prism context set	The starting page number of the publication
-prism.endingPage	Int	/nex:nexml/nex:meta[@property='prism:endingPage']/@content	Citation	Prism context set	The ending page number of the publication
-prism.pageRange	String	/nex:nexml/nex:meta[@property='prism:pageRange']/@content	Citation	Prism context set	The page range of the publication (maybe instead of start/end)
-prism.creationDate	Date	/nex:nexml/nex:meta[@property='prism:creationDate']/@content	Citation	Prism context set	The date the submission was created
-prism.publicationDate	Date	/nex:nexml/nex:meta[@property='prism:publicationDate']/@content	Citation	Prism context set	The date the study was published
-prism.embargoDate	Date	/nex:nexml/nex:meta[@property='prism:embargoDate']/@content	Citation	Prism context set	The date a study was made public on TreeBASE
-prism.keyword	String	/nex:nexml/nex:meta[@property='prism:keyword']/@content	Citation	Prism context set	A single keyword
-tb.taxonLabel	String	//nex:otu/@label	Taxon	TreeBASE	The human-readable label/name of a Taxon
+dc.description	String	//meta[@property='dc:description']/@content	Any object	Dublin core	A descriptive string, e.g. the matrix description field
+dc.identifier	String	//meta[@property='dc:identifier']/@content	Any object	Dublin core	A binomial identifier, e.g. TreeBASE2:Tr3242, NCBI:1232, uBio:23423
+dc.title	String	/nexml/meta[@property='dc:title']/@content	Study	Dublin core	The title of a study
+dc.creator	String	/nexml/meta[@property='dc:creator']/@content	Study	Dublin core	The submitter of a study
+dc.contributor	String	/nexml/meta[@property='dc:contributor']/@content	Citation	Dublin core	An author of a study
+dc.abstract	String	/nexml/meta[@property='dc:abstract']/@content	Citation	Dublin core	A study abstract
+prism.publicationName	String	/nexml/meta[@property='prism:publicationName']/@content	Citation	Prism context set	The publication in which study was published (e.g. a journal name)
+prism.doi	String	/nexml/meta[@property='prism:doi']/@content	Citation	Prism context set	The digital object identifier of the publication 
+prism.volume	Int	/nexml/meta[@property='prism:volume']/@content	Citation	Prism context set	The volume number of the publication
+prism.number	Int	/nexml/meta[@property='prism:number']/@content	Citation	Prism context set	The issue number of the publication
+prism.startingPage	Int	/nexml/meta[@property='prism:startingPage']/@content	Citation	Prism context set	The starting page number of the publication
+prism.endingPage	Int	/nexml/meta[@property='prism:endingPage']/@content	Citation	Prism context set	The ending page number of the publication
+prism.pageRange	String	/nexml/meta[@property='prism:pageRange']/@content	Citation	Prism context set	The page range of the publication (maybe instead of start/end)
+prism.creationDate	Date	/nexml/meta[@property='prism:creationDate']/@content	Citation	Prism context set	The date the submission was created
+prism.publicationDate	Date	/nexml/meta[@property='prism:publicationDate']/@content	Citation	Prism context set	The date the study was published
+prism.embargoDate	Date	/nexml/meta[@property='prism:embargoDate']/@content	Citation	Prism context set	The date a study was made public on TreeBASE
+prism.keyword	String	/nexml/meta[@property='prism:keyword']/@content	Citation	Prism context set	A single keyword
+tb.taxonLabel	String	//otu/@label	Taxon	TreeBASE	The human-readable label/name of a Taxon
 tb.taxon	String	???	Taxon	TreeBASE	A shorthand, e.g. tb.taxon='taxonID:3123' or tb.taxon='taxonLabel:Homo%20Sapiens'
-tb.taxaLabel	String	//nex:otus/@label	Taxa	TreeBASE	The human-readable label/name of a TaxaBlock
-tb.matrixLabel	String	//nex:characters/@label	Matrix	TreeBASE	The human-readable label/name of a character state matrix
-tb.matrixDatatype	String	//nex:characters/@xsi:type	Matrix	TreeBASE	The data type, e.g. DNA, RNA, Protein, Continuous, Standard, etc. Maybe make this an enumeration
-tb.matrixNTAX	Int	count(//nex:characters//nex:row)	Matrix	TreeBASE	The number of rows in a matrix
-tb.matrixNCHAR	Int	count(//nex:characters//nex:char)	Matrix	TreeBASE	The number of columns in a matrix
+tb.taxaLabel	String	//otus/@label	Taxa	TreeBASE	The human-readable label/name of a TaxaBlock
+tb.matrixLabel	String	//characters/@label	Matrix	TreeBASE	The human-readable label/name of a character state matrix
+tb.matrixDatatype	String	//characters/@xsi:type	Matrix	TreeBASE	The data type, e.g. DNA, RNA, Protein, Continuous, Standard, etc. Maybe make this an enumeration
+tb.matrixNTAX	Int	count(//characters//row)	Matrix	TreeBASE	The number of rows in a matrix
+tb.matrixNCHAR	Int	count(//characters//char)	Matrix	TreeBASE	The number of columns in a matrix
 tb.matrixTaxon	*tb.taxon	??	Matrix	TreeBASE	A taxon query on the taxa associated with the tree
-tb.treeBlockLabel	String	//nex:trees/@label	TreeBlock	TreeBASE	The human-readable label/name of a TreeBlock
-tb.treeLabel	String	//nex:tree/@label	Tree	TreeBASE	The human-readable label/name of a Tree
-tb.treeType	String	//nex:tree/nex:meta[@property='tb.treeType']/@content	Tree	TreeBASE	The tree type, "Single" or "Consensus"
-tb.treeKind	String	//nex:tree/nex:meta[@property='tb.treeKind']/@content	Tree	TreeBASE	The tree kind, "Species" or "Gene"
-tb.treeQuality	String	//nex:tree/nex:meta[@property='tb.treeQuality']/@content	Tree	TreeBASE	Tree quality, e.g. "Unrated"
-tb.treeNTAX	Int	count(//nex:tree/node[@otu])	Tree	TreeBASE	The number of taxa in a tree
+tb.treeBlockLabel	String	//trees/@label	TreeBlock	TreeBASE	The human-readable label/name of a TreeBlock
+tb.treeLabel	String	//tree/@label	Tree	TreeBASE	The human-readable label/name of a Tree
+tb.treeType	String	//tree/meta[@property='tb.treeType']/@content	Tree	TreeBASE	The tree type, "Single" or "Consensus"
+tb.treeKind	String	//tree/meta[@property='tb.treeKind']/@content	Tree	TreeBASE	The tree kind, "Species" or "Gene"
+tb.treeQuality	String	//tree/meta[@property='tb.treeQuality']/@content	Tree	TreeBASE	Tree quality, e.g. "Unrated"
+tb.treeNTAX	Int	count(//tree/node[@otu])	Tree	TreeBASE	The number of taxa in a tree
 tb.treeTaxon	*tb.taxon	???	Tree	TreeBASE	A taxon query on the taxa associated with the tree
