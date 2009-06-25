@@ -966,40 +966,40 @@ public abstract class SRWDatabase {
                     dbn+".class entry in properties file");
             dbn="db.default";
         }
-        if(className.equals("ORG.oclc.os.SRW.SRWPearsDatabase")) {
-            log.info("** Warning ** the class ORG.oclc.os.SRW.SRWPearsDatabase has been replaced with ORG.oclc.os.SRW.Pears.SRWPearsDatabase");
+        if(className.equals("org.oclc.os.SRW.SRWPearsDatabase")) {
+            log.info("** Warning ** the class org.oclc.os.SRW.SRWPearsDatabase has been replaced with org.oclc.os.SRW.Pears.SRWPearsDatabase");
             log.info("              Please correct the server's properties file");
-            className="ORG.oclc.os.SRW.Pears.SRWPearsDatabase";
+            className="org.oclc.os.SRW.Pears.SRWPearsDatabase";
             log.debug("new className="+className);
         }
-        else if(className.equals("ORG.oclc.os.SRW.SRWRemoteDatabase")) {
-            log.info("** Warning ** the class ORG.oclc.os.SRW.SRWRemoteDatabase has been replaced with ORG.oclc.os.SRW.ParallelSearching.SRWRemoteDatabase");
+        else if(className.equals("org.oclc.os.SRW.SRWRemoteDatabase")) {
+            log.info("** Warning ** the class org.oclc.os.SRW.SRWRemoteDatabase has been replaced with org.oclc.os.SRW.ParallelSearching.SRWRemoteDatabase");
             log.info("              Please correct the server's properties file");
-            className="ORG.oclc.os.SRW.ParallelSearching.SRWRemoteDatabase";
+            className="org.oclc.os.SRW.ParallelSearching.SRWRemoteDatabase";
             log.debug("new className="+className);
         }
-        else if(className.equals("ORG.oclc.os.SRW.Pears.SRWRemoteDatabase")) {
-            log.info("** Warning ** the class ORG.oclc.os.SRW.Pears.SRWRemoteDatabase has been replaced with ORG.oclc.os.SRW.ParallelSearching.SRWRemoteDatabase");
+        else if(className.equals("org.oclc.os.SRW.Pears.SRWRemoteDatabase")) {
+            log.info("** Warning ** the class org.oclc.os.SRW.Pears.SRWRemoteDatabase has been replaced with org.oclc.os.SRW.ParallelSearching.SRWRemoteDatabase");
             log.info("              Please correct the server's properties file");
-            className="ORG.oclc.os.SRW.ParallelSearching.SRWRemoteDatabase";
+            className="org.oclc.os.SRW.ParallelSearching.SRWRemoteDatabase";
             log.debug("new className="+className);
         }
-        else if(className.equals("ORG.oclc.os.SRW.SRWMergeDatabase")) {
-            log.info("** Warning ** the class ORG.oclc.os.SRW.SRWMergeDatabase has been replaced with ORG.oclc.os.SRW.ParallelSearching.SRWMergeDatabase");
+        else if(className.equals("org.oclc.os.SRW.SRWMergeDatabase")) {
+            log.info("** Warning ** the class org.oclc.os.SRW.SRWMergeDatabase has been replaced with org.oclc.os.SRW.ParallelSearching.SRWMergeDatabase");
             log.info("              Please correct the server's properties file");
-            className="ORG.oclc.os.SRW.ParallelSearching.SRWMergeDatabase";
+            className="org.oclc.os.SRW.ParallelSearching.SRWMergeDatabase";
             log.debug("new className="+className);
         }
-        else if(className.equals("ORG.oclc.os.SRW.Pears.SRWMergeDatabase")) {
-            log.info("** Warning ** the class ORG.oclc.os.SRW.Pears.SRWMergeDatabase has been replaced with ORG.oclc.os.SRW.ParallelSearching.SRWMergeDatabase");
+        else if(className.equals("org.oclc.os.SRW.Pears.SRWMergeDatabase")) {
+            log.info("** Warning ** the class org.oclc.os.SRW.Pears.SRWMergeDatabase has been replaced with org.oclc.os.SRW.ParallelSearching.SRWMergeDatabase");
             log.info("              Please correct the server's properties file");
-            className="ORG.oclc.os.SRW.ParallelSearching.SRWMergeDatabase";
+            className="org.oclc.os.SRW.ParallelSearching.SRWMergeDatabase";
             log.debug("new className="+className);
         }
-        else if(className.equals("ORG.oclc.os.SRW.SRWDLuceneDatabase")) {
-            log.info("** Warning ** the class ORG.oclc.os.SRW.SRWLuceneDatabase has been replaced with ORG.oclc.os.SRW.DSpaceLucene.SRWLuceneDatabase");
+        else if(className.equals("org.oclc.os.SRW.SRWDLuceneDatabase")) {
+            log.info("** Warning ** the class org.oclc.os.SRW.SRWLuceneDatabase has been replaced with org.oclc.os.SRW.DSpaceLucene.SRWLuceneDatabase");
             log.info("              Please correct the server's properties file");
-            className="ORG.oclc.os.SRW.DSpaceLucene.SRWLuceneDatabase";
+            className="org.oclc.os.SRW.DSpaceLucene.SRWLuceneDatabase";
             log.debug("new className="+className);
         }
         SRWDatabase db=null;

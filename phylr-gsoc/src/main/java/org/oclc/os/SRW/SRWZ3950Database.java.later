@@ -19,7 +19,7 @@
  * Created on February 9, 2004, 10:04 AM
  */
 
-package ORG.oclc.os.SRW;
+package org.oclc.os.SRW;
 
 import java.util.Stack;
 import gov.loc.www.zing.srw.ScanRequestType;
@@ -29,10 +29,10 @@ import gov.loc.www.zing.srw.SearchRetrieveResponseType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import ORG.oclc.ber.BerString;
-import ORG.oclc.ber.DataDir;
-import ORG.oclc.z39.Diagnostic1;
-import ORG.oclc.z39.Z39presentApi;
-import ORG.oclc.z39.Z39session;
+import org.oclc.ber.DataDir;
+import org.oclc.z39.Diagnostic1;
+import org.oclc.z39.Z39presentApi;
+import org.oclc.z39.Z39session;
 import org.z3950.zing.cql.CQLNode;
 
 /**
@@ -115,7 +115,7 @@ public class SRWZ3950Database extends SRWDatabase {
                   null, "f", Z39presentApi.OCLC_BER_SYNTAX, null, 101, null,
                   attributesPlusTerm, true);
             }
-            catch(ORG.oclc.z39.AccessControl e) {
+            catch(org.oclc.z39.AccessControl e) {
                 diagnostic(SRWDiagnostics.GeneralSystemError, e.getMessage(),
                     response);
                 log.error(e, e);

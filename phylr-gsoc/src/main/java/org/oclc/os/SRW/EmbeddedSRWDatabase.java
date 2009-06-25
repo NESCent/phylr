@@ -59,9 +59,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
-//import ORG.oclc.ber.DataDir;
-//import ORG.oclc.RecordHandler.HandleSGML;
-
 public class EmbeddedSRWDatabase {
 
     public EmbeddedSRWDatabase() {
@@ -491,6 +488,6 @@ public class EmbeddedSRWDatabase {
     }
 
     static void usage() {
-        System.out.println("usage: java ORG.oclc.os.SRW.EmbeddedSRWDatabase [-p<SRWServer.props>] -d<dbname>");
+        System.out.println("usage: java org.oclc.os.SRW.EmbeddedSRWDatabase [-p<SRWServer.props>] -d<dbname>");
     }
 }

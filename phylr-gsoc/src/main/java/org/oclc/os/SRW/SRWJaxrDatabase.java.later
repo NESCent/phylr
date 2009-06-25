@@ -19,7 +19,7 @@
  * Created on August 5, 2003, 4:17 PM
  */
 
-package ORG.oclc.os.SRW;
+package org.oclc.os.SRW;
 
 import gov.loc.www.zing.srw.v1_0.*;
 import gov.loc.www.zing.srw.v1_0.diagnostic.DiagnosticType;
@@ -152,7 +152,7 @@ public class SRWJaxrDatabase extends SRWDatabase {
                     try {
                             byteRecord=null; // get record from JAXR
                             log.info("XML version as provided by HandleSGML:");
-                            log.info("\n"+ORG.oclc.util.Util.byteArrayToString(byteRecord));
+                            log.info("\n"+org.oclc.util.Util.byteArrayToString(byteRecord));
                             try {
                                 stringRecord=new String(byteRecord, "UTF8");
                             }
@@ -173,7 +173,7 @@ public class SRWJaxrDatabase extends SRWDatabase {
                         record.setRecordPosition(new RecordType_recordPosition(Integer.toString(startPoint)));
                         
                         //log.info("transformed record:");
-                        //log.info(ORG.oclc.util.Util.byteArrayToString(stringRecord.getBytes()));
+                        //log.info(org.oclc.util.Util.byteArrayToString(stringRecord.getBytes()));
                         records.setRecord(i, record);
                     } catch (NoSuchElementException e) {
                         log.error("Read beyond the end of list!!");

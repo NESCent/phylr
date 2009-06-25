@@ -5,13 +5,15 @@ databaseInfo.contact=rscherle@nescent.org
 
 configInfo.maximumRecords=50
 
-
 # Mapping between the CQL indexes (query fields) and searchable fields
 # within the Lucene index.
-qualifier.dc.identifier=treeid
-qualifier.dc.creator=author
-qualifier.dc.description=abstract
-qualifier.dc.subject=keywords
+qualifier.dc.identifier=dc.identifier
+qualifier.dc.creator=dc.creator
+qualifier.dc.contributor=dc.contributor
+qualifier.dc.description=dc.description
+qualifier.dc.title=dc.title
+qualifier.dc.subject=dc.subject
+qualifier.phylo.treeid=phylo.treeid
 qualifier.phylo.scientificName=otu
 qualifier.phylo.datatype=datatype
 qualifier.phylo.treesize=treesize

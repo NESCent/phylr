@@ -281,7 +281,7 @@ public class SRWLuceneDatabase extends SRWDatabase {
         }
 
         String translatorName=dbProperties.getProperty("SRWLuceneDatabase.CqlToLuceneQueryTranslator",
-                "ORG.oclc.os.SRW.Lucene.BasicLuceneQueryTranslator");
+                "org.oclc.os.SRW.Lucene.BasicLuceneQueryTranslator");
         try {
             log.debug("creating translator "+translatorName);
             Class  translatorClass=Class.forName(translatorName);

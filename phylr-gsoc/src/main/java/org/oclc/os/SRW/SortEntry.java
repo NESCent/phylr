@@ -77,7 +77,7 @@ public class SortEntry implements Comparable {
     }
 
     public String toString() {
-        StringBuffer sb=new StringBuffer("ORG.oclc.os.SRW.SortEntry: key=").append(key);
+        StringBuffer sb=new StringBuffer("org.oclc.os.SRW.SortEntry: key=").append(key);
         if(number!=-1)
             sb.append(", number=").append(number);
         if(entry!=null)

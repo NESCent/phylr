@@ -9,7 +9,7 @@
     <servlet-name>SRWServlet</servlet-name>
     <!--display-name>SRW/U Servlet</display-name-->
     <servlet-class>
-        ORG.oclc.os.SRW.SRWServlet
+        org.oclc.os.SRW.SRWServlet
     </servlet-class>
     <!--init-param>
       <param-name>PropertiesFile</param-name>
@@ -21,7 +21,7 @@
   <servlet>
     <servlet-name>SRUServerTesterServlet</servlet-name>
     <!--display-name>SRU Server Tester Servlet</display-name-->
-    <servlet-class>ORG.oclc.os.SRW.SRUServerTesterServlet</servlet-class>
+    <servlet-class>org.oclc.os.SRW.SRUServerTesterServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
