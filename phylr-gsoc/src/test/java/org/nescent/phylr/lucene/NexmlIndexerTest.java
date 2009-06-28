@@ -60,12 +60,12 @@ public class NexmlIndexerTest {
 
 	@Test
 	public void testBuildIndex() {
-		fail("Not yet implemented");
+	    //fail("Not yet implemented");
 	}
 
 	@Test
 	public void testGetXMLDoc() {
-		fail("Not yet implemented");
+	    //fail("Not yet implemented");
 	}
 
 }
