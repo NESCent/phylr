@@ -7,6 +7,7 @@
 <xsl:import href="stdiface.xsl"/>
 <xsl:import href="dublinCoreRecord.xsl"/>
 <xsl:import href="LuceneDocument.xsl"/>
+<xsl:import href="nexmlRecord.xsl"/>
 <!--xsl:import href="ber.xsl"/>
 <xsl:import href="stdiface.xsl"/>
 <xsl:import href="dublinCoreRecord.xsl"/>
@@ -14,6 +15,7 @@
 <xsl:import href="zthesRecord.xsl"/>
 <xsl:import href="mets.xsl" /-->
 <xsl:import href="MarcXmlToTaggedText.xsl"/>
+
 
 <xsl:variable name="title">Results for Search: <xsl:value-of select="/srw:searchRetrieveResponse/srw:echoedSearchRetrieveRequest/srw:query"/></xsl:variable>
 <xsl:variable name="dbname"><xsl:value-of select="/srw:searchRetrieveResponse/srw:extraResponseData/databaseTitle"/></xsl:variable>
@@ -92,6 +94,9 @@
       <xsl:when test="$schema = 'http://srw.o-r-g.org/schemas/ccg/1.0/'">
 	      Collectable Card Schema
         </xsl:when>
+      <xsl:when test="$schema = 'info:http://www.nexml.org/1.0'">
+      	  NeXML 
+      </xsl:when>
       <xsl:otherwise>
 	      <xsl:value-of select="$schema"/>
         </xsl:otherwise>

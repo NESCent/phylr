@@ -27,6 +27,6 @@ tb.treeBlockLabel	String	//trees/@label	TreeBlock	TreeBASE	The human-readable la
 tb.treeLabel	String	//tree/@label	Tree	TreeBASE	The human-readable label/name of a Tree
 tb.treeType	String	//tree/meta[@property='tb.treeType']/@content	Tree	TreeBASE	The tree type, "Single" or "Consensus"
 tb.treeKind	String	//tree/meta[@property='tb.treeKind']/@content	Tree	TreeBASE	The tree kind, "Species" or "Gene"
-tb.treeQuality	String	//tree/meta[@property='tb.treeQuality']/@content	Tree	TreeBASE	Tree quality, e.g. "Unrated"
+tb.treeQuality	String	//tree/R[@property='tb.treeQuality']/@content	Tree	TreeBASE	Tree quality, e.g. "Unrated"
 tb.treeNTAX	Int	count(//tree/node[@otu])	Tree	TreeBASE	The number of taxa in a tree
 tb.treeTaxon	*tb.taxon	???	Tree	TreeBASE	A taxon query on the taxa associated with the tree

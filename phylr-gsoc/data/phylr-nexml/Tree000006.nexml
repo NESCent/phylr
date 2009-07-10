@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <nexml
-    veasdfrsion="0.8"
+    version="0.8"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xml="http://www.w3.org/XML/1998/namespace"
     xmlns="http://www.nexml.org/1.0">

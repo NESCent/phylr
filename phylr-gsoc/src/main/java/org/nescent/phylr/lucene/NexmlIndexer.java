@@ -29,6 +29,8 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -45,7 +47,14 @@ public class NexmlIndexer {
 	private static final String HEADER = "NEXML Lucene Indexer";
 
 	private static final String FOOTER = "For more instructions, please visit http://tinyurl.com/q2pchz";
+	
+	private static Log log = LogFactory.getLog(NexmlIndexer.class); 
 		
+	/**
+	 * Pring usage of the command line tool, and exit
+	 * 
+	 * @param options
+	 */
 	private static void printUsageAndExit(Options options) {
 		HelpFormatter helpFormatter = new HelpFormatter();
 		helpFormatter.defaultWidth = 80;
@@ -113,15 +122,18 @@ public class NexmlIndexer {
 			NexmlIndexer indexer = new NexmlIndexer(list);
 			indexer.index(dataDir, indexDir);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("Can't find " + mappings, e);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("NexmlIndexer failed to index", e);
 		} 
 		
 	}
 
+	/**
+	 * Create a new instance
+	 * 
+	 * @param fields
+	 */
 	public NexmlIndexer(List<Predicate> fields) {
 		XPathFactory factory = XPathFactory.newInstance();
 		XPath xpath = factory.newXPath();
@@ -131,11 +143,17 @@ public class NexmlIndexer {
 			try {
 				xpaths.put(field, xpath.compile(field.getXpath()));
 			} catch (XPathExpressionException ex) {
-				ex.printStackTrace();
+				log.error("Invalid xpath: " + field.getXpath(), ex);
 			}
 		}
 	}
 
+	/**
+	 * Read the predicates definitions
+	 * 
+	 * @param reader
+	 * @return
+	 */
 	public static List<Predicate> readPredicates(Reader reader) {
 		List<Predicate> list = new ArrayList<Predicate>();
 		LineIterator it = IOUtils.lineIterator(reader);
@@ -160,6 +178,13 @@ public class NexmlIndexer {
 		return list;
 	}
 
+	/**
+	 * Index files in dataDir, and put the index in indexDir
+	 * 
+	 * @param dataDir
+	 * @param indexDir
+	 * @throws IOException
+	 */
 	public void index(File dataDir, File indexDir) throws IOException {
 		File[] nexmlfiles = dataDir.listFiles(new FilenameFilter() {
 			public boolean accept(File dir, String name) {
@@ -178,9 +203,9 @@ public class NexmlIndexer {
 			try {
 				writer.addDocument(document);
 			} catch (CorruptIndexException e) {
-				e.printStackTrace();
+				log.error(e.getMessage(), e);
 			} catch (IOException e) {
-				e.printStackTrace();
+				log.error(e.getMessage());
 			}
 		}
 
@@ -189,6 +214,12 @@ public class NexmlIndexer {
 		writer.close();
 	}
 
+	/**
+	 * Bulid index with data from a file
+	 * 
+	 * @param file
+	 * @return
+	 */
 	public Document buildIndex(File file) {
 		Document document = new Document();
 		org.w3c.dom.Document xmlDoc = getXMLDoc(file);
@@ -217,7 +248,7 @@ public class NexmlIndexer {
 			try {
 				result = xpath.evaluate(xmlDoc, qname);
 			} catch (XPathExpressionException ex) {
-				ex.printStackTrace();
+				log.error("Failed to evaluate xpath " + xpath.toString() + " in " + file, ex);
 			}
 
 			String value = null;
@@ -249,13 +280,19 @@ public class NexmlIndexer {
 			document.add(new Field("nexml", IOUtils.toString(new FileReader(
 					file)), Field.Store.YES, Field.Index.NO));
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			log.error("Can't find file " + file, e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("Failed to add 'nexml' field", e);
 		}
 		return document;
 	}
 
+	/**
+	 * Get a concatenated String from a NodeList values
+	 * 
+	 * @param nodes
+	 * @return
+	 */
 	private String getNodeValues(NodeList nodes) {
 		String res = "";
 		int length = nodes.getLength();
@@ -265,6 +302,12 @@ public class NexmlIndexer {
 		return res;
 	}
 
+	/**
+	 * Parses file and returns an org.w3c.dom.Document object
+	 * 
+	 * @param file
+	 * @return
+	 */
 	public org.w3c.dom.Document getXMLDoc(File file) {
 		org.w3c.dom.Document doc = null;
 		try {
@@ -274,7 +317,7 @@ public class NexmlIndexer {
 			DocumentBuilder builder = domFactory.newDocumentBuilder();
 			doc = builder.parse(file);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Can't parse " + file, e);
 		}
 		return doc;
 	}
