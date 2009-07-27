@@ -81,7 +81,7 @@ INSERT INTO edge_qualifier_value (edge_id, term_id, value)
 -- TAXON
 INSERT INTO node_taxon (node_id, taxon_id) 
 	SELECT n.node_id, t.taxon_id FROM nodes n, taxon t, taxa tx
-	WHERE n.taxon_id = tx.taxon_id and tx.taxid = t.ncbi_taxon_id
+	WHERE n.taxon_id = tx.taxon_id and tx.taxid = t.ncbi_taxon_id;
 	
 -- STUDY
 INSERT INTO ontology (name, definition) VALUES ('Dublin Core', 'Dublin Core Metadata Initiative (DCMI)');
@@ -93,23 +93,23 @@ INSERT INTO term (name, ontology_id) SELECT 'study.doi', ontology.ontology_id FR
 
 INSERT INTO tree_qualifier_value (tree_id, term_id, value) 
 	SELECT tr.tree_id, te.term_id, s.study_id FROM trees tr, term te, study s, ontology o
-	WHERE tr.study_id = s.study_id AND te.name='identifier' AND te.ontology_id = o.ontology_id AND o.name='Dublin Core'
+	WHERE tr.study_id = s.study_id AND te.name='identifier' AND te.ontology_id = o.ontology_id AND o.name='Dublin Core';
 
 INSERT INTO tree_qualifier_value (tree_id, term_id, value) 
 	SELECT tr.tree_id, te.term_id, s.author FROM trees tr, term te, study s, ontology o
-	WHERE tr.study_id = s.study_id AND te.name='contributor' AND te.ontology_id = o.ontology_id AND o.name='Dublin Core'
+	WHERE tr.study_id = s.study_id AND te.name='contributor' AND te.ontology_id = o.ontology_id AND o.name='Dublin Core';
 
 INSERT INTO tree_qualifier_value (tree_id, term_id, value) 
 	SELECT tr.tree_id, te.term_id, s.title FROM trees tr, term te, study s, ontology o
-	WHERE tr.study_id = s.study_id AND te.name='title' AND te.ontology_id = o.ontology_id AND o.name='Dublin Core'
+	WHERE tr.study_id = s.study_id AND te.name='title' AND te.ontology_id = o.ontology_id AND o.name='Dublin Core';
 
 INSERT INTO tree_qualifier_value (tree_id, term_id, value) 
 	SELECT tr.tree_id, te.term_id, s.abstract FROM trees tr, term te, study s, ontology o
-	WHERE tr.study_id = s.study_id AND te.name='abstract' AND te.ontology_id = o.ontology_id AND o.name='Dublin Core'
+	WHERE tr.study_id = s.study_id AND te.name='abstract' AND te.ontology_id = o.ontology_id AND o.name='Dublin Core';
 	
 INSERT INTO tree_qualifier_value (tree_id, term_id, value) 
 	SELECT tr.tree_id, te.term_id, s.doi FROM trees tr, term te, study s, ontology o
-	WHERE tr.study_id = s.study_id AND te.name='study.doi' AND te.ontology_id = o.ontology_id AND o.name='TreeBase DB'
+	WHERE tr.study_id = s.study_id AND te.name='study.doi' AND te.ontology_id = o.ontology_id AND o.name='TreeBase DB';
 	
 -- DROP TreeBase Tables
 DROP TABLE edges, ncbi_names, ncbi_node_path, ncbi_nodes, node_path, nodes, study, taxa, taxon_variants, trees;
