@@ -1,3 +1,31 @@
+-- This script is used to migrate TreeBase database to a BioSQL database on PostgreSQL 8.3
+-- Please follow these steps before running this
+-- 1. create database
+-- # createdb biosql
+
+-- 2. import treebase dump (which I obtained from Bill Piel) into the database
+-- # psql biosql < phylodb.sql
+
+-- 3. create biosql tables using the schema
+-- # psql biosql < biosqldb-pg.sql
+
+-- 4. Because both treebase and biosql phylodb extension have a table name "node_path", 
+-- so one of them needs to be renamed. 
+-- open biosql-phylodb-pg.sql in a text editor, and rename "node_path" to "bs_node_path". 
+-- (Please note you have to use "bs_node_path", as it'll be referred in this script!)
+
+-- 5. Create tables in the biosql-phylodb extension
+-- # psql biosql < biosql-phylodb-pg.sql
+
+-- 6. Now import the ncbi taxonomy using the biosql import script. Please follow the biosql
+-- installation instructions for this step. If you already have BioPerl, and BioPerlDB > 1.5.2, 
+-- Then you can simply execute the following (The load_ncbi_taxonomy.pl) is in the biosql 
+-- distribution:
+-- # load_ncbi_taxonomy.pl --driver Pg --download yes --dbname biosql
+
+-- 8. Finally, execute this migration script
+-- # psql biosql < TreeBaseBioSQLMig.sql
+
 ALTER TABLE tree ALTER COLUMN node_id DROP NOT NULL;
 ALTER TABLE tree ALTER COLUMN name TYPE character varying(255);
 ALTER TABLE tree ALTER COLUMN name DROP NOT NULL;
@@ -86,6 +114,7 @@ INSERT INTO tree_qualifier_value (tree_id, term_id, value)
 -- DROP TreeBase Tables
 DROP TABLE edges, ncbi_names, ncbi_node_path, ncbi_nodes, node_path, nodes, study, taxa, taxon_variants, trees;
 
+-- Rename table node_path back
 ALTER TABLE bs_node_path RENAME TO node_path;
 
 
