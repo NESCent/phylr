@@ -45,6 +45,7 @@ import org.apache.axis.utils.Admin;
 import org.apache.axis.utils.JavaUtils;
 import org.apache.axis.utils.Messages;
 import org.apache.axis.utils.XMLUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -1337,6 +1338,11 @@ public class SRWServlet extends AxisServlet {
                             servletLog.error("resultSetTTL="+t);
                         }
                     }
+                } else if (parm.equals("version")) {
+                	t = req.getParameter("version");
+                	if (!StringUtils.isBlank(t)) {
+                		sb.append("<srw:version>").append(t).append("</srw:version>");
+                	}
                 }
             }
             parms=req.getParameterNames(); // walk through them again
