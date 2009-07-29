@@ -54,8 +54,8 @@ public class NexmlIndexerTest {
 		Directory directory = FSDirectory.getDirectory(indexDir);
 		IndexReader indexReader = IndexReader.open(directory);
 		int maxDocs = indexReader.maxDoc();
-		assertEquals(1, maxDocs);
-		assertEquals("T. J. Ayers", indexReader.document(0).get("dc.contributor"));
+		assertEquals(2, maxDocs);
+		assertEquals("T. J. Ayers", indexReader.document(1).get("dc.contributor"));
 	}
 
 	@Test
