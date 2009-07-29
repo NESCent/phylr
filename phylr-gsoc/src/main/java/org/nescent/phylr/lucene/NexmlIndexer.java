@@ -159,6 +159,7 @@ public class NexmlIndexer {
 		LineIterator it = IOUtils.lineIterator(reader);
 		while (it.hasNext()) {
 			String line = it.nextLine();
+			if (line.startsWith("#")) continue;
 			String[] tokens = StringUtils.split(line, '\t');
 			Predicate predicate = new Predicate();
 			predicate.setField(tokens[0]);

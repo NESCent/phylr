@@ -16,17 +16,17 @@ prism.publicationDate	Date	/nexml/meta[@property='prism:publicationDate']/@conte
 prism.embargoDate	Date	/nexml/meta[@property='prism:embargoDate']/@content	Citation	Prism context set	The date a study was made public on TreeBASE
 prism.keyword	String	/nexml/meta[@property='prism:keyword']/@content	Citation	Prism context set	A single keyword
 tb.taxonLabel	String	//otu/@label	Taxon	TreeBASE	The human-readable label/name of a Taxon
-tb.taxon	String	???	Taxon	TreeBASE	A shorthand, e.g. tb.taxon='taxonID:3123' or tb.taxon='taxonLabel:Homo%20Sapiens'
+#tb.taxon	String	???	Taxon	TreeBASE	A shorthand, e.g. tb.taxon='taxonID:3123' or tb.taxon='taxonLabel:Homo%20Sapiens'
 tb.taxaLabel	String	//otus/@label	Taxa	TreeBASE	The human-readable label/name of a TaxaBlock
 tb.matrixLabel	String	//characters/@label	Matrix	TreeBASE	The human-readable label/name of a character state matrix
 tb.matrixDatatype	String	//characters/@xsi:type	Matrix	TreeBASE	The data type, e.g. DNA, RNA, Protein, Continuous, Standard, etc. Maybe make this an enumeration
 tb.matrixNTAX	Int	count(//characters//row)	Matrix	TreeBASE	The number of rows in a matrix
 tb.matrixNCHAR	Int	count(//characters//char)	Matrix	TreeBASE	The number of columns in a matrix
-tb.matrixTaxon	*tb.taxon	??	Matrix	TreeBASE	A taxon query on the taxa associated with the tree
+#tb.matrixTaxon	*tb.taxon	??	Matrix	TreeBASE	A taxon query on the taxa associated with the tree
 tb.treeBlockLabel	String	//trees/@label	TreeBlock	TreeBASE	The human-readable label/name of a TreeBlock
 tb.treeLabel	String	//tree/@label	Tree	TreeBASE	The human-readable label/name of a Tree
 tb.treeType	String	//tree/meta[@property='tb.treeType']/@content	Tree	TreeBASE	The tree type, "Single" or "Consensus"
 tb.treeKind	String	//tree/meta[@property='tb.treeKind']/@content	Tree	TreeBASE	The tree kind, "Species" or "Gene"
 tb.treeQuality	String	//tree/R[@property='tb.treeQuality']/@content	Tree	TreeBASE	Tree quality, e.g. "Unrated"
 tb.treeNTAX	Int	count(//tree/node[@otu])	Tree	TreeBASE	The number of taxa in a tree
-tb.treeTaxon	*tb.taxon	???	Tree	TreeBASE	A taxon query on the taxa associated with the tree
+#tb.treeTaxon	*tb.taxon	???	Tree	TreeBASE	A taxon query on the taxa associated with the tree
