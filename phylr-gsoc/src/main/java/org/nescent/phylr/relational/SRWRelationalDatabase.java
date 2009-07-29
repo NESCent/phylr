@@ -4,9 +4,11 @@ import gov.loc.www.zing.srw.ExtraDataType;
 import gov.loc.www.zing.srw.ScanRequestType;
 import gov.loc.www.zing.srw.SearchRetrieveRequestType;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -22,6 +24,7 @@ import org.oclc.os.SRW.SRWDiagnostic;
 import org.oclc.os.SRW.SortTool;
 import org.oclc.os.SRW.TermList;
 import org.z3950.zing.cql.CQLNode;
+import org.z3950.zing.cql.CQLParseException;
 import org.z3950.zing.cql.CQLTermNode;
 
 public class SRWRelationalDatabase extends SRWDatabase {
@@ -197,7 +200,17 @@ public class SRWRelationalDatabase extends SRWDatabase {
 			RelationalQueryResult lqr = new RelationalQueryResult();
 			lqr.addDiagnostic(e.getCode(), e.getAddInfo());
 			return lqr;
-		} catch (Exception e) {
+		} catch (CQLParseException e) {
+			log.error(e, e);
+			RelationalQueryResult lqr = new RelationalQueryResult();
+			lqr.addDiagnostic(SRWDiagnostic.QuerySyntaxError, e.getMessage());
+			return lqr;
+		} catch (IOException e) {
+			log.error(e, e);
+			RelationalQueryResult lqr = new RelationalQueryResult();
+			lqr.addDiagnostic(SRWDiagnostic.QuerySyntaxError, e.getMessage());
+			return lqr;
+		} catch (SQLException e) {
 			log.error(e, e);
 			RelationalQueryResult lqr = new RelationalQueryResult();
 			lqr.addDiagnostic(SRWDiagnostic.GeneralSystemError, e.getMessage());
