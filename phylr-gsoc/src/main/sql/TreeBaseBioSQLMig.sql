@@ -85,10 +85,10 @@ INSERT INTO node_taxon (node_id, taxon_id)
 	
 -- STUDY
 INSERT INTO ontology (name, definition) VALUES ('Dublin Core', 'Dublin Core Metadata Initiative (DCMI)');
-INSERT INTO term (name, ontology_id) SELECT 'identifier', ontology.ontology_id FROM ontology WHERE ontology.name = 'Dublin Core';
-INSERT INTO term (name, ontology_id) SELECT 'contributor', ontology.ontology_id FROM ontology WHERE ontology.name = 'Dublin Core';
-INSERT INTO term (name, ontology_id) SELECT 'title', ontology.ontology_id FROM ontology WHERE ontology.name = 'Dublin Core';
-INSERT INTO term (name, ontology_id) SELECT 'abstract', ontology.ontology_id FROM ontology WHERE ontology.name = 'Dublin Core';
+INSERT INTO term (name, ontology_id) SELECT 'dc.identifier', ontology.ontology_id FROM ontology WHERE ontology.name = 'Dublin Core';
+INSERT INTO term (name, ontology_id) SELECT 'dc.contributor', ontology.ontology_id FROM ontology WHERE ontology.name = 'Dublin Core';
+INSERT INTO term (name, ontology_id) SELECT 'dc.title', ontology.ontology_id FROM ontology WHERE ontology.name = 'Dublin Core';
+INSERT INTO term (name, ontology_id) SELECT 'dc.abstract', ontology.ontology_id FROM ontology WHERE ontology.name = 'Dublin Core';
 INSERT INTO term (name, ontology_id) SELECT 'study.doi', ontology.ontology_id FROM ontology WHERE ontology.name = 'TreeBase DB';
 
 INSERT INTO tree_qualifier_value (tree_id, term_id, value) 
@@ -116,5 +116,12 @@ DROP TABLE edges, ncbi_names, ncbi_node_path, ncbi_nodes, node_path, nodes, stud
 
 -- Rename table node_path back
 ALTER TABLE bs_node_path RENAME TO node_path;
+
+-- Create full text index 
+CREATE INDEX ft_tree_qualifier_value_idx ON tree_qualifier_value USING gin(to_tsvector('english', value))
+
+CREATE INDEX term_name_idx ON term USING btree (name);
+
+
 
 

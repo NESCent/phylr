@@ -22,12 +22,6 @@ table.formtable td { width: 100%}
 input.button { margin: 0; }
 --&gt;
 </style>
-<script type="text/javascript" src="ext-core.js"/> 
-<script type="text/javascript">
-<![CDATA[
-
-]]>	
-</script>
 </head>
 <body>
 <div id="masthead">

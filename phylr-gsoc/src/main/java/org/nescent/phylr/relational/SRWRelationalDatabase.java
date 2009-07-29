@@ -8,8 +8,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,11 +28,18 @@ public class SRWRelationalDatabase extends SRWDatabase {
 	static Log log = LogFactory.getLog(SRWRelationalDatabase.class);
 
 	CqlQueryTranslator translator = null;
-	// Hashtable indexSynonyms=new Hashtable();
 	Hashtable<String, RecordResolver> resolvers = new Hashtable<String, RecordResolver>();
 	String idFieldName = null, indexInfo = null;
 	
 	Connection connection = null;
+
+	public Connection getConnection() {
+		return connection;
+	}
+
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
 
 	@Override
 	public void addRenderer(String schemaName, String schemaID, Properties props)
@@ -40,7 +49,7 @@ public class SRWRelationalDatabase extends SRWDatabase {
 				.getProperty(schemaName + ".resolver");
 		if (resolverName == null) {
 			log.debug("creating BasicRelationalResolver");
-			resolver = new BasicRelationalRecordResolver();
+			resolver = new BioSQLDCRecordResolver();
 			resolver.init(props);
 		} else {
 			try {
@@ -69,10 +78,92 @@ public class SRWRelationalDatabase extends SRWDatabase {
 	@Override
 	public String getIndexInfo() {
 		if (indexInfo == null) {
-			// TODO: to implement
+			indexInfo = makeIndexInfo(dbProperties, null);
 		}
 		return indexInfo;
 	}
+	
+    public static String makeIndexInfo(Properties props, Hashtable<String, String> indexMappings) {
+        Hashtable<String, String> sets=new Hashtable<String, String>();
+        int             indexNum=0;
+        String          index, indexSet, luceneIndex, prop;
+        StringBuffer    sb=new StringBuffer("        <indexInfo>\n");
+        StringTokenizer st;
+
+        makeUnqualifiedIndexes(props);
+
+        Enumeration enumer=props.propertyNames();
+        while(enumer.hasMoreElements()) {
+            prop=(String)enumer.nextElement();
+            if(prop.startsWith("qualifier.")) {
+                st=new StringTokenizer(prop.substring(10));
+                index=st.nextToken();
+                st=new StringTokenizer(index, ".");
+                if(st.countTokens()==1) {
+                    indexSet="local";
+                    index=prop.substring(10);
+                }
+                else {
+                    indexSet=st.nextToken();
+                    index=prop.substring(10+indexSet.length()+1);
+                }
+                
+                if(log.isDebugEnabled())log.debug("indexSet="+indexSet+", index="+index);
+                if(sets.get(indexSet)==null) {  // new set
+                    sb.append("          <set identifier=\"")
+                      .append(props.getProperty("indexSet."+indexSet))
+                      .append("\" name=\"").append(indexSet).append("\"/>\n");
+                    sets.put(indexSet, indexSet);
+                }
+                sb.append("          <index>\n")
+                  .append("            <title>").append(indexSet).append('.').append(index).append("</title>\n")
+                  .append("            <map>\n")
+                  .append("              <name set=\"").append(indexSet).append("\">").append(index).append("</name>\n")
+                  .append("              </map>\n")
+                  .append("            </index>\n");
+
+                if(indexMappings!=null) {
+                    // now for a bit of trickery for the CQL parser
+                    // the line we just read isn't in the format the parser
+                    // expect.  we just read:
+                    // qualifier.<indexSet>.indexName=luceneIndexName
+                    // the parser is expecting:
+                    // qualifier.<indexSet>.indexName=1=<z39.50UseAttribute>
+                    // it doesn't really care what Use attribute we provide,
+                    // so we'll make up Use attribute numbers to correspond
+                    // with the lucene indexes.
+                    luceneIndex=props.getProperty(prop);
+                    indexMappings.put(indexSet+"."+index, luceneIndex);
+                    if(log.isDebugEnabled())
+                        log.debug("mapping "+indexSet+"."+index+" to "+luceneIndex);
+                    props.put(prop, "1="+(++indexNum));
+                }
+            }
+            else if(prop.startsWith("hiddenQualifier.")) {
+                st=new StringTokenizer(prop.substring(16));
+                index=st.nextToken();
+                if(indexMappings!=null) {
+                    // now for a bit of trickery for the CQL parser
+                    // the line we just read isn't in the format the parser
+                    // expect.  we just read:
+                    // qualifier.<indexSet>.indexName=luceneIndexName
+                    // the parser is expecting:
+                    // qualifier.<indexSet>.indexName=1=<z39.50UseAttribute>
+                    // it doesn't really care what Use attribute we provide,
+                    // so we'll make up Use attribute numbers to correspond
+                    // with the lucene indexes.
+                    luceneIndex=props.getProperty(prop);
+                    indexMappings.put(index, luceneIndex);
+                    if(log.isDebugEnabled())
+                        log.debug("mapping "+index+" to "+luceneIndex);
+                    props.put(prop, "1="+(++indexNum));
+                }
+            }
+        }
+        sb.append("          </indexInfo>\n");
+        return sb.toString();
+    }
+	
 
 	@Override
 	public QueryResult getQueryResult(String queryStr,
@@ -112,14 +203,6 @@ public class SRWRelationalDatabase extends SRWDatabase {
 			lqr.addDiagnostic(SRWDiagnostic.GeneralSystemError, e.getMessage());
 			return lqr;
 		} finally {
-			/*
-			if (results != null) {
-				try { results.close(); } catch (Exception ex) {}  
-			}
-			if (stmt != null) {
-				try { stmt.close(); } catch (Exception ex) {}
-			}
-			*/
 		}
 	}
 
@@ -174,7 +257,17 @@ public class SRWRelationalDatabase extends SRWDatabase {
 		maxTerms = 10;
 		position = 1;
 		
+		String driver = dbProperties.getProperty("SRWRelationalDatabase.driver");
+		try {
+			Class.forName(driver);
+		} catch (ClassNotFoundException e1) {
+			log.error("Database driver not found: " + driver);
+			throw new InstantiationException("Database driver not found: " + driver);
+		}
+		
 		String url = dbProperties.getProperty("SRWRelationalDatabase.url");
+		String username = dbProperties.getProperty("SRWRelationalDatabase.user");
+		String password = dbProperties.getProperty("SRWRelationalDatabase.password");
 		log.debug("db url=" + url);
 
 		if (url == null) {
@@ -183,7 +276,7 @@ public class SRWRelationalDatabase extends SRWDatabase {
 		}
 
 		try {
-			connection = DriverManager.getConnection(url);
+			connection = DriverManager.getConnection(url, username, password);
 		} catch (Exception e) {
 			log.error("Unable to create connection with url=" + url
 					+ " for database " + dbname);

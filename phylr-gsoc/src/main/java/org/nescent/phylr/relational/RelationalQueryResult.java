@@ -15,6 +15,7 @@ public class RelationalQueryResult extends QueryResult {
     ResultSet hits=null;
     SRWRelationalDatabase ldb=null;
     long count = -1;
+    RelationalRecordIterator localIterator = null;
 
     /** Creates a new instance of LuceneQueryResult */
     public RelationalQueryResult() {
@@ -24,6 +25,20 @@ public class RelationalQueryResult extends QueryResult {
     public RelationalQueryResult(SRWRelationalDatabase ldb, ResultSet hits) {
         this.ldb=ldb;
         this.hits=hits;
+    }
+    
+    @Override
+    public void close() {
+    	super.close();
+    	log.info("RelationalResultSet close");
+		try {
+			if (!this.hits.isClosed()) {
+				this.hits.close();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+    	}
     }
 
     @Override
@@ -36,6 +51,7 @@ public class RelationalQueryResult extends QueryResult {
         	try {
         		hits.last();
         		count = hits.getRow();
+        		hits.beforeFirst();
         	} catch (SQLException e) {
         		// TODO Auto-generated catch block
         		e.printStackTrace();
@@ -48,11 +64,16 @@ public class RelationalQueryResult extends QueryResult {
     public QueryResult getSortedResult(String sortKeys) {
         return this;
     }
-
+    
     @Override
     public RecordIterator newRecordIterator(long whichRec, int numRecs,
       String schemaId, ExtraDataType edt) throws InstantiationException {
         log.debug("whichRec="+whichRec+", numRecs="+numRecs+", schemaId="+schemaId+", edt="+edt);
-        return new RelationalRecordIterator(whichRec, schemaId, this, (RecordResolver)ldb.resolvers.get(schemaId), edt);
+        if (this.localIterator == null) {
+        	this.localIterator = new RelationalRecordIterator(whichRec, schemaId, this, (RecordResolver)ldb.resolvers.get(schemaId), edt); 
+        } else {
+        	localIterator.go(whichRec);
+        }
+        return localIterator;
     }
 }

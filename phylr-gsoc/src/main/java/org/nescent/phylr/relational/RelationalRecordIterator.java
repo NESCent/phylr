@@ -24,6 +24,7 @@ package org.nescent.phylr.relational;
 import gov.loc.www.zing.srw.ExtraDataType;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.NoSuchElementException;
 
 import org.apache.commons.logging.Log;
@@ -55,18 +56,38 @@ public class RelationalRecordIterator implements RecordIterator {
         this.resolver=resolver;
         this.edt=edt;
     }
+    
+    public void go(long whichRec) {
+    	ResultSet hits = result.hits;
+    	try {
+			hits.absolute(new Long(whichRec-1).intValue());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 
     public void close() {
     	try {
-    		result.hits.close();
-    	} catch (Exception ex) {}
+    		if (!this.result.hits.isClosed())
+    			this.result.hits.close();
+    	} catch (Exception ex) {
+    		log.error("Failed to close ResultSet object: " + ex.getMessage());
+    	}
     }
 
     public boolean hasNext() {
         log.debug("whichRec="+whichRec+", result.getNumberOfRecords()="+result.getNumberOfRecords());
-        if(whichRec<=result.getNumberOfRecords())
-            return true;
-        return false;
+    	try {
+			if (result.hits.isAfterLast()) {
+				return false;
+			} else {
+				return true;
+			}
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+		}
+		return true;
     }
 
     public Object next() throws NoSuchElementException {
@@ -78,8 +99,7 @@ public class RelationalRecordIterator implements RecordIterator {
         try {
         	hits.next();
             return resolver.resolve(hits, result.ldb.idFieldName, edt);
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
             log.error(e, e);
             log.error("whichRec="+whichRec);
             throw new NoSuchElementException(e.getMessage());

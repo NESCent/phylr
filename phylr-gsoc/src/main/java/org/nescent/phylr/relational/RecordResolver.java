@@ -20,7 +20,7 @@ import gov.loc.www.zing.srw.ExtraDataType;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-import org.apache.lucene.document.Document;
+
 import org.oclc.os.SRW.Record;
 
 /**
