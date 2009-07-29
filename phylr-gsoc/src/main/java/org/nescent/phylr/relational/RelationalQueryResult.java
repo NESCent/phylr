@@ -32,8 +32,10 @@ public class RelationalQueryResult extends QueryResult {
     	super.close();
     	log.info("RelationalResultSet close");
 		try {
-			if (!this.hits.isClosed()) {
-				this.hits.close();
+			if (this.hits != null) {
+				if (!this.hits.isClosed()) {
+					this.hits.close();
+				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -69,8 +69,10 @@ public class RelationalRecordIterator implements RecordIterator {
 
     public void close() {
     	try {
-    		if (!this.result.hits.isClosed())
-    			this.result.hits.close();
+    		if (this.result.hits != null) {
+    			if (!this.result.hits.isClosed())
+    				this.result.hits.close();
+    		}
     	} catch (Exception ex) {
     		log.error("Failed to close ResultSet object: " + ex.getMessage());
     	}
