@@ -286,7 +286,7 @@ public class SRWRelationalDatabase extends SRWDatabase {
 
 		String translatorName = dbProperties.getProperty(
 				"SRWRelationalDatabase.CqlToSQLTranslator",
-				"org.nescent.phylr.relational.BasicSQLTranslator");
+				"org.nescent.phylr.relational.BioSQLQueryTranslator");
 		try {
 			log.debug("creating translator " + translatorName);
 			Class translatorClass = Class.forName(translatorName);
