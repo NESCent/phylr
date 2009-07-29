@@ -119,6 +119,8 @@ ALTER TABLE bs_node_path RENAME TO node_path;
 
 -- Create full text index 
 CREATE INDEX ft_tree_qualifier_value_idx ON tree_qualifier_value USING gin(to_tsvector('english', value))
+CREATE INDEX ft_tree_name_idx ON tree USING gin(to_tsvector('english', name))
+CREATE INDEX ft_tree_identifier_idx ON tree USING gin(to_tsvector('english', identifier))
 
 CREATE INDEX term_name_idx ON term USING btree (name);
 

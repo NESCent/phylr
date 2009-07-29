@@ -11,10 +11,12 @@ SRWRelationalDatabase.query.node =
 SRWRelationalDatabase.query.tree.indexes = dc.identifier dc.contributor dc.title dc.abstract 
 
 # Mapping between the CQL indexes (query fields) and SQL queries for tree_id
-qualifier.dc.identifier=select tq.tree_id from tree_qualifier_value as tq, term as te where to_tsvector('english', value) @@ to_tsquery('english', ?) and tq.term_id = te.term_id and te.name='dc.identifier'
-qualifier.dc.contributor=select tq.tree_id from tree_qualifier_value as tq, term as te where to_tsvector('english', value) @@ to_tsquery('english', ?) and tq.term_id = te.term_id and te.name='dc.contributor'
-qualifier.dc.title=select tq.tree_id from tree_qualifier_value as tq, term as te where to_tsvector('english', value) @@ to_tsquery('english', ?) and tq.term_id = te.term_id and te.name='dc.title'
-qualifier.dc.abstract=select tq.tree_id from tree_qualifier_value as tq, term as te where to_tsvector('english', value) @@ to_tsquery('english', ?) and tq.term_id = te.term_id and te.name='dc.abstract'
+qualifier.dc.identifier=select tq.tree_id from tree_qualifier_value as tq, term as te where to_tsvector('english', value) @@ to_tsquery('english', '?') and tq.term_id = te.term_id and te.name='dc.identifier'
+qualifier.dc.contributor=select tq.tree_id from tree_qualifier_value as tq, term as te where to_tsvector('english', value) @@ to_tsquery('english', '?') and tq.term_id = te.term_id and te.name='dc.contributor'
+qualifier.dc.title=select tq.tree_id from tree_qualifier_value as tq, term as te where to_tsvector('english', value) @@ to_tsquery('english', '?') and tq.term_id = te.term_id and te.name='dc.title'
+qualifier.dc.abstract=select tq.tree_id from tree_qualifier_value as tq, term as te where to_tsvector('english', value) @@ to_tsquery('english', '?') and tq.term_id = te.term_id and te.name='dc.abstract'
+qualifier.tree.identifier=select tree_id from tree where to_tsvector('english', identifier) @@ to_tsquery('english', '?')
+qualifier.tree.name=select tree_id from tree where to_tsvector('english', name) @@ to_tsquery('english', '?')
 
 # Database Connection Settings
 SRWRelationalDatabase.driver=org.postgresql.Driver

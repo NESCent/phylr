@@ -93,13 +93,13 @@ public class BioSQLQueryTranslator implements CqlQueryTranslator {
         	sql = indexMapping.get(index);
             if(ctn.getRelation().getBase().equals("=") ||
               ctn.getRelation().getBase().equals("scr")) {
-            	sql = sql.replaceFirst("\\?", "'" + term + "'");
+            	sql = sql.replaceFirst("\\?", term);
             } else if(ctn.getRelation().getBase().equals("any")) {
-            	sql = sql.replaceFirst("\\?", "'" + StringUtils.join(StringUtils.split(term), " | ") + "'");
+            	sql = sql.replaceFirst("\\?", StringUtils.join(StringUtils.split(term), " | ") );
             } else if(ctn.getRelation().getBase().equals("all")) {
-            	sql = sql.replaceFirst("\\?", "'" + StringUtils.join(StringUtils.split(term), " & ") + "'");
+            	sql = sql.replaceFirst("\\?", StringUtils.join(StringUtils.split(term), " & "));
             } else if (ctn.getRelation().getBase().equals("exact")) {
-            	sql = sql.replaceFirst("\\?", "'" + term + "'");
+            	sql = sql.replaceFirst("\\?", term);
             } else {
             	sql = "Unsupported Relation: "+ctn.getRelation().getBase();
             }
