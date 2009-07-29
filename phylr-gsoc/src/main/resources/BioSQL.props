@@ -1,16 +1,20 @@
 databaseInfo.title=Phylr
-databaseInfo.description=Phylr contains a copy of the BioSQL data.
-databaseInfo.author=Phylr subgroup from the Nescent Database Interoperability Hackathon
-databaseInfo.contact=rscherle@nescent.org
+databaseInfo.description=Phylr Service that contains a BioSQL database, migrated from TreeBase
+databaseInfo.author=Google Summer of Coder 
+databaseInfo.contact=dazhi.jiao@gmail.com
 
 configInfo.maximumRecords=50
 
-# Mapping between the CQL indexes (query fields) and searchable fields
-# within the Lucene index.
-qualifier.dc.identifier=dc.identifier
-qualifier.dc.contributor=dc.contributor
-qualifier.dc.title=dc.title
-qualifier.dc.abstract=dc.abstract
+SRWRelationalDatabase.query.tree = select tree_id, xmlagg(xvalue) from ( SELECT tree_id, xmlforest(tq.value as "dc:identifier") as xvalue FROM tree_qualifier_value tq, term te WHERE tq.term_id = te.term_id and te.name='dc.identifier' UNION ALL SELECT tq.tree_id, xmlforest(tq.value as "dc:title") as xvalue FROM tree_qualifier_value tq, term te WHERE tq.term_id = te.term_id and te.name='dc.title' UNION ALL SELECT tq.tree_id, xmlforest(tq.value as "dc:abstract") as xvalue FROM tree_qualifier_value tq, term te WHERE tq.term_id = te.term_id and te.name='dc.abstract' UNION ALL SELECT tq.tree_id, xmlforest(tq.value as "dc:contributor") as xvalue FROM tree_qualifier_value tq, term te WHERE tq.term_id = te.term_id and te.name='dc.contributor' ) as tab WHERE tree_id in (?) GROUP BY tree_id
+SRWRelationalDatabase.query.node = 
+
+SRWRelationalDatabase.query.tree.indexes = dc.identifier dc.contributor dc.title dc.abstract 
+
+# Mapping between the CQL indexes (query fields) and SQL queries for tree_id
+qualifier.dc.identifier=select tq.tree_id from tree_qualifier_value as tq, term as te where to_tsvector('english', value) @@ to_tsquery('english', ?) and tq.term_id = te.term_id and te.name='dc.identifier'
+qualifier.dc.contributor=select tq.tree_id from tree_qualifier_value as tq, term as te where to_tsvector('english', value) @@ to_tsquery('english', ?) and tq.term_id = te.term_id and te.name='dc.contributor'
+qualifier.dc.title=select tq.tree_id from tree_qualifier_value as tq, term as te where to_tsvector('english', value) @@ to_tsquery('english', ?) and tq.term_id = te.term_id and te.name='dc.title'
+qualifier.dc.abstract=select tq.tree_id from tree_qualifier_value as tq, term as te where to_tsvector('english', value) @@ to_tsquery('english', ?) and tq.term_id = te.term_id and te.name='dc.abstract'
 
 # Database Connection Settings
 SRWRelationalDatabase.driver=org.postgresql.Driver
