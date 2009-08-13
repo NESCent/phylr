@@ -21,10 +21,11 @@ qualifier.tree.name=select tree_id from tree where to_tsvector('english', name) 
 # Database Connection Settings
 SRWRelationalDatabase.driver=org.postgresql.Driver
 SRWRelationalDatabase.user=djiao
-SRWRelationalDatabase.password=phylr
-SRWRelationalDatabase.url=jdbc:postgresql://pyran.ath.cx/biosql
+SRWRelationalDatabase.password=45fFsw5lA1
+SRWRelationalDatabase.url=jdbc:postgresql://karya.nescent.org/biosql
 
 SRWRelationalDatabase.CqlToSQLTranslator=org.nescent.phylr.relational.BioSQLQueryTranslator
+SRWRelationalDatabase.ResultSetHandler=org.nescent.phylr.relational.BioSQLResultSetHandler
 
 # Possible result formats
 #xmlSchemas=nexml,dc, LuceneDocument

@@ -40,7 +40,7 @@ public interface RecordResolver {
      * @param extraDataType - nonstandard SRW request parameters
      * @return record if found.
      */
-    public Record resolve(ResultSet hits, String IdFieldName, ExtraDataType extraDataType);
+    public Record resolve(Object hit, String IdFieldName, ExtraDataType extraDataType);
 
     /**
      * Initialize the resolver.

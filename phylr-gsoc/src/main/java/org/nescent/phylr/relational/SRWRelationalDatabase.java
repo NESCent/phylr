@@ -8,10 +8,12 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
@@ -19,6 +21,10 @@ import org.apache.commons.dbcp.ConnectionFactory;
 import org.apache.commons.dbcp.DriverManagerConnectionFactory;
 import org.apache.commons.dbcp.PoolableConnectionFactory;
 import org.apache.commons.dbcp.PoolingDriver;
+import org.apache.commons.dbutils.DbUtils;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.pool.ObjectPool;
@@ -39,16 +45,6 @@ public class SRWRelationalDatabase extends SRWDatabase {
 	CqlQueryTranslator translator = null;
 	Hashtable<String, RecordResolver> resolvers = new Hashtable<String, RecordResolver>();
 	String idFieldName = null, indexInfo = null;
-	
-	Connection connection = null;
-
-	public Connection getConnection() {
-		return connection;
-	}
-
-	public void setConnection(Connection connection) {
-		this.connection = connection;
-	}
 
 	@Override
 	public void addRenderer(String schemaName, String schemaID, Properties props)
@@ -186,8 +182,11 @@ public class SRWRelationalDatabase extends SRWDatabase {
 	public QueryResult getQueryResult(String queryStr,
 			SearchRetrieveRequestType request) throws InstantiationException {
 		log.debug("entering SRWRelationalDatabase.getQueryResult");
+		
+		Connection connection = null;
 		ResultSet results = null;
-		Statement stmt = null;
+		Statement stmt = null;		
+
 		try {
 			if (log.isDebugEnabled())
 				log.debug("query=" + queryStr);
@@ -205,11 +204,26 @@ public class SRWRelationalDatabase extends SRWDatabase {
 			log.info("lucene search=" + query);
 
 			// perform search
+			connection = DriverManager.getConnection("jdbc:apache:commons:dbcp:" + dbname);
+			/*
 			stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
 					ResultSet.CONCUR_READ_ONLY);
+			*/
+			QueryRunner run = new QueryRunner();
 			
-			results = stmt.executeQuery(query);
-			return new RelationalQueryResult(this, results);
+			// Create a ResultSetHandler implementation to convert the
+			// first row into an Object[].
+			String handlerName = dbProperties.getProperty(
+					"SRWRelationalDatabase.ResultSetHandler",
+					"org.nescent.phylr.relational.BioSQLResultSetHandler");			
+			Class resultSetHandler = Class.forName(handlerName);
+			log.debug("creating instance of class " + resultSetHandler);
+			ResultSetHandler handler = (ResultSetHandler) resultSetHandler.newInstance();			
+
+			//results = stmt.executeQuery(query);
+			List result = (List)run.query(connection, query, handler); 
+			return new RelationalQueryResult(this, result);
+			
 		} catch (SRWDiagnostic e) {
 			RelationalQueryResult lqr = new RelationalQueryResult();
 			lqr.addDiagnostic(e.getCode(), e.getAddInfo());
@@ -229,7 +243,20 @@ public class SRWRelationalDatabase extends SRWDatabase {
 			RelationalQueryResult lqr = new RelationalQueryResult();
 			lqr.addDiagnostic(SRWDiagnostic.GeneralSystemError, e.getMessage());
 			return lqr;
+		} catch (ClassNotFoundException e) {
+			log.error(e, e);
+			RelationalQueryResult lqr = new RelationalQueryResult();
+			lqr.addDiagnostic(SRWDiagnostic.GeneralSystemError, e.getMessage());
+			return lqr;
+		} catch (IllegalAccessException e) {
+			log.error(e, e);
+			RelationalQueryResult lqr = new RelationalQueryResult();
+			lqr.addDiagnostic(SRWDiagnostic.GeneralSystemError, e.getMessage());
+			return lqr;
 		} finally {
+			try {
+				DbUtils.close(connection);
+			} catch (SQLException e) {}
 		}
 	}
 
@@ -304,14 +331,6 @@ public class SRWRelationalDatabase extends SRWDatabase {
 		if (url == null) {
 			log.error("Database Connection URL not specified for database " + dbname);
 			throw new InstantiationException("Database Connection URL not specified");
-		}
-
-		try {
-			connection = DriverManager.getConnection("jdbc:apache:commons:dbcp:" + dbname);
-		} catch (Exception e) {
-			log.error("Unable to create connection for database " + dbname);
-			log.error(e, e);
-			throw new InstantiationException(e.getMessage());
 		}
 
 		String translatorName = dbProperties.getProperty(

@@ -2,6 +2,8 @@ package org.nescent.phylr.relational;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.ListIterator;
 
 import gov.loc.www.zing.srw.ExtraDataType;
 import org.apache.commons.logging.Log;
@@ -12,7 +14,7 @@ import org.oclc.os.SRW.RecordIterator;
 public class RelationalQueryResult extends QueryResult {
     static final Log log=LogFactory.getLog(RelationalQueryResult.class);
 
-    ResultSet hits=null;
+    List hits=null;
     SRWRelationalDatabase ldb=null;
     long count = -1;
     RelationalRecordIterator localIterator = null;
@@ -22,7 +24,7 @@ public class RelationalQueryResult extends QueryResult {
     }
 
     /** Creates a new instance of LuceneQueryResult */
-    public RelationalQueryResult(SRWRelationalDatabase ldb, ResultSet hits) {
+    public RelationalQueryResult(SRWRelationalDatabase ldb, List hits) {
         this.ldb=ldb;
         this.hits=hits;
     }
@@ -30,17 +32,6 @@ public class RelationalQueryResult extends QueryResult {
     @Override
     public void close() {
     	super.close();
-    	log.info("RelationalResultSet close");
-		try {
-			if (this.hits != null) {
-				if (!this.hits.isClosed()) {
-					this.hits.close();
-				}
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-    	}
     }
 
     @Override
@@ -50,14 +41,7 @@ public class RelationalQueryResult extends QueryResult {
         if(hits==null) {
         	count = 0;
         } else {
-        	try {
-        		hits.last();
-        		count = hits.getRow();
-        		hits.beforeFirst();
-        	} catch (SQLException e) {
-        		// TODO Auto-generated catch block
-        		e.printStackTrace();
-        	}
+        	count = hits.size();
         }
         return count;
     }
@@ -68,14 +52,9 @@ public class RelationalQueryResult extends QueryResult {
     }
     
     @Override
-    public RecordIterator newRecordIterator(long whichRec, int numRecs,
-      String schemaId, ExtraDataType edt) throws InstantiationException {
+    public RecordIterator newRecordIterator(long whichRec, int numRecs, String schemaId, ExtraDataType edt) throws InstantiationException {
         log.debug("whichRec="+whichRec+", numRecs="+numRecs+", schemaId="+schemaId+", edt="+edt);
-        if (this.localIterator == null) {
-        	this.localIterator = new RelationalRecordIterator(whichRec, schemaId, this, (RecordResolver)ldb.resolvers.get(schemaId), edt); 
-        } else {
-        	localIterator.go(whichRec);
-        }
-        return localIterator;
+        List sublist = this.hits.subList(new Long(whichRec).intValue()-1, new Long(whichRec + numRecs).intValue()-1);
+        return new RelationalRecordIterator(sublist, schemaId, edt, (RecordResolver)ldb.resolvers.get(schemaId), null);
     }
 }

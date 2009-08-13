@@ -25,6 +25,8 @@ import gov.loc.www.zing.srw.ExtraDataType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 import org.apache.commons.logging.Log;
@@ -40,56 +42,28 @@ public class RelationalRecordIterator implements RecordIterator {
     static final Log log=LogFactory.getLog(RelationalRecordIterator.class);
 
     ExtraDataType edt;
-    int numRecs;
-    long whichRec;
-    RelationalQueryResult result;
     RecordResolver resolver;
     String schemaId;
+    List result;
+    ListIterator iterator;
+    String idFieldName;
 
     /** Creates a new instance of LuceneRecordIterator */
-    public RelationalRecordIterator(long whichRec, String schemaId,
-      RelationalQueryResult result, RecordResolver resolver, ExtraDataType edt) {
-        log.debug("whichRec="+whichRec+", schemaId="+schemaId+", result="+result+", resolver="+resolver+", edt="+edt);
-        this.whichRec=whichRec;
+    public RelationalRecordIterator(List result, String schemaId, ExtraDataType edt, RecordResolver resolver, String idFIeldName) {
+        log.debug("schemaId="+schemaId+", result="+result+", resolver="+resolver+", edt="+edt);
         this.schemaId=schemaId;
         this.result=result;
         this.resolver=resolver;
         this.edt=edt;
-    }
-    
-    public void go(long whichRec) {
-    	ResultSet hits = result.hits;
-    	try {
-			hits.absolute(new Long(whichRec-1).intValue());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        this.idFieldName = idFIeldName;
+        this.iterator = result.listIterator();
     }
 
     public void close() {
-    	try {
-    		if (this.result.hits != null) {
-    			if (!this.result.hits.isClosed())
-    				this.result.hits.close();
-    		}
-    	} catch (Exception ex) {
-    		log.error("Failed to close ResultSet object: " + ex.getMessage());
-    	}
     }
 
     public boolean hasNext() {
-        log.debug("whichRec="+whichRec+", result.getNumberOfRecords()="+result.getNumberOfRecords());
-    	try {
-			if (result.hits.isAfterLast()) {
-				return false;
-			} else {
-				return true;
-			}
-		} catch (SQLException e) {
-			log.error(e.getMessage());
-		}
-		return true;
+    	return iterator.hasNext();
     }
 
     public Object next() throws NoSuchElementException {
@@ -97,20 +71,16 @@ public class RelationalRecordIterator implements RecordIterator {
     }
 
     public Record nextRecord() throws NoSuchElementException {
-    	ResultSet hits = result.hits;
         try {
-        	hits.next();
-            return resolver.resolve(hits, result.ldb.idFieldName, edt);
+            return resolver.resolve(iterator.next(), idFieldName, edt);
         } catch(Exception e) {
             log.error(e, e);
-            log.error("whichRec="+whichRec);
             throw new NoSuchElementException(e.getMessage());
-        }
-        finally {
-            whichRec++;
         }
     }
 
-    public void remove() {
-    }
+	public void remove() {
+		// TODO Auto-generated method stub
+		
+	}
 }

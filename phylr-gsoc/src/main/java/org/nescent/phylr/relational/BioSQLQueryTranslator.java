@@ -22,27 +22,8 @@ public class BioSQLQueryTranslator implements CqlQueryTranslator {
     private static Log log= LogFactory.getLog(BioSQLQueryTranslator.class);
     SRWRelationalDatabase database = null;
     Map<String, String> indexMapping = null;
-    
-    private String outTreeSql = "select tree_id, xmlagg(xvalue) from ( " +
-    		"SELECT tree_id, xmlforest(tq.value as \"dc:identifier\") as xvalue " +
-    		"FROM tree_qualifier_value tq, term te " +
-    		"WHERE tq.term_id = te.term_id and te.name='dc.identifier' " +
-    		"UNION ALL " +
-    		"SELECT tq.tree_id, xmlforest(tq.value as \"dc:title\") as xvalue " +
-    		"FROM tree_qualifier_value tq, term te " +
-    		"WHERE tq.term_id = te.term_id and te.name='dc.title' " +
-    		"UNION ALL " +
-    		"SELECT tq.tree_id, xmlforest(tq.value as \"dc:abstract\") as xvalue " +
-    		"FROM tree_qualifier_value tq, term te " +
-    		"WHERE tq.term_id = te.term_id and te.name='dc.abstract' " +
-    		"UNION ALL " +
-    		"SELECT tq.tree_id, xmlforest(tq.value as \"dc:contributor\") as xvalue " +
-    		"FROM tree_qualifier_value tq, term te " +
-    		"WHERE tq.term_id = te.term_id and te.name='dc.contributor' " +
-    		") as tab " +
-    		"WHERE tree_id in (?) " + 
-    		"GROUP BY tree_id";
-    private String outNodeSql = "";
+    String outTreeSql = null;
+    String outNodeSql = null;
     
     public void init(Properties properties, SRWRelationalDatabase ldb) throws InstantiationException {
     	this.database = ldb;
