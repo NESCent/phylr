@@ -15,8 +15,14 @@ import java.util.Hashtable;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
+import org.apache.commons.dbcp.ConnectionFactory;
+import org.apache.commons.dbcp.DriverManagerConnectionFactory;
+import org.apache.commons.dbcp.PoolableConnectionFactory;
+import org.apache.commons.dbcp.PoolingDriver;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.pool.ObjectPool;
+import org.apache.commons.pool.impl.GenericObjectPool;
 import org.oclc.os.SRW.QueryResult;
 import org.oclc.os.SRW.Record;
 import org.oclc.os.SRW.SRWDatabase;
@@ -166,7 +172,15 @@ public class SRWRelationalDatabase extends SRWDatabase {
         sb.append("          </indexInfo>\n");
         return sb.toString();
     }
-	
+    
+    private void setupDriver(String poolName, String connectURI, String username, String passwd) throws ClassNotFoundException, SQLException {
+    	ObjectPool connectionPool = new GenericObjectPool(null);
+    	ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(connectURI,username, passwd);
+    	PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory,connectionPool,null,null,false,true);
+        Class.forName("org.apache.commons.dbcp.PoolingDriver");
+        PoolingDriver driver = (PoolingDriver) DriverManager.getDriver("jdbc:apache:commons:dbcp:");
+        driver.registerPool(poolName,connectionPool);
+    }
 
 	@Override
 	public QueryResult getQueryResult(String queryStr,
@@ -270,17 +284,21 @@ public class SRWRelationalDatabase extends SRWDatabase {
 		maxTerms = 10;
 		position = 1;
 		
+		String url = dbProperties.getProperty("SRWRelationalDatabase.url");		
+		String username = dbProperties.getProperty("SRWRelationalDatabase.user");
+		String password = dbProperties.getProperty("SRWRelationalDatabase.password");
 		String driver = dbProperties.getProperty("SRWRelationalDatabase.driver");
 		try {
 			Class.forName(driver);
+			setupDriver(dbname, url, username, password);
 		} catch (ClassNotFoundException e1) {
 			log.error("Database driver not found: " + driver);
 			throw new InstantiationException("Database driver not found: " + driver);
+		} catch (SQLException e) {
+			log.error("Can't setup database pool: ", e);
+			throw new InstantiationException("Database connection pool can't be initialized");
 		}
-		
-		String url = dbProperties.getProperty("SRWRelationalDatabase.url");
-		String username = dbProperties.getProperty("SRWRelationalDatabase.user");
-		String password = dbProperties.getProperty("SRWRelationalDatabase.password");
+
 		log.debug("db url=" + url);
 
 		if (url == null) {
@@ -289,10 +307,9 @@ public class SRWRelationalDatabase extends SRWDatabase {
 		}
 
 		try {
-			connection = DriverManager.getConnection(url, username, password);
+			connection = DriverManager.getConnection("jdbc:apache:commons:dbcp:" + dbname);
 		} catch (Exception e) {
-			log.error("Unable to create connection with url=" + url
-					+ " for database " + dbname);
+			log.error("Unable to create connection for database " + dbname);
 			log.error(e, e);
 			throw new InstantiationException(e.getMessage());
 		}
