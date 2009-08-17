@@ -56,7 +56,6 @@ db.treebase.home=/home/djiao/workspace/phylr-gsoc/data/phylr-index
 db.treebase.configuration=TreeIndex.props
 
 db.biosql.class=org.nescent.phylr.relational.SRWRelationalDatabase
-db.biosql.home=/home/djiao/workspace/phylr-gsoc/data/phylr-index
 db.biosql.configuration=BioSQL.props
 
 db.lucene.class=org.oclc.os.SRW.Lucene.SRWLuceneDatabase
