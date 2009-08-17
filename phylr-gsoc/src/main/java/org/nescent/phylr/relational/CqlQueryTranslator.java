@@ -10,14 +10,11 @@
 package org.nescent.phylr.relational;
 
 import java.util.Properties;
+
 import org.oclc.os.SRW.SRWDiagnostic;
 import org.oclc.os.SRW.SortTool;
 import org.z3950.zing.cql.CQLNode;
 
-/**
- *
- * @author levan
- */
 public interface CqlQueryTranslator {
     void init(Properties properties, SRWRelationalDatabase ldb) throws InstantiationException;
 

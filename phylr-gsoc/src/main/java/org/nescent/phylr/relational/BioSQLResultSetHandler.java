@@ -9,8 +9,8 @@ import org.apache.commons.dbutils.ResultSetHandler;
 
 public class BioSQLResultSetHandler implements ResultSetHandler {
 
-	public List handle(ResultSet rs) throws SQLException {
-		List result = new ArrayList();
+	public List<Object> handle(ResultSet rs) throws SQLException {
+		List<Object> result = new ArrayList<Object>();
 		
 		while (rs.next()) {
 			Object[] row = new Object[2];

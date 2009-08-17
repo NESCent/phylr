@@ -23,8 +23,6 @@ package org.nescent.phylr.relational;
 
 import gov.loc.www.zing.srw.ExtraDataType;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
@@ -34,10 +32,6 @@ import org.apache.commons.logging.LogFactory;
 import org.oclc.os.SRW.Record;
 import org.oclc.os.SRW.RecordIterator;
 
-/**
- *
- * @author levan
- */
 public class RelationalRecordIterator implements RecordIterator {
     static final Log log=LogFactory.getLog(RelationalRecordIterator.class);
 
